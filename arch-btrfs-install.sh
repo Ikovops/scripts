@@ -22,6 +22,7 @@ partition_disk() {
   mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@var /dev/${root_part_name} /mnt/var
   mount /dev/${efi_part_name} /mnt/boot
   reflector --sort rate --completion-percent 100 --age 12 --country France --protocol https --save /etc/pacman.d/mirrorlist
+  vim /etc/mkinitcpio.conf
   pacstrap -K /mnt base linux linux-firmware git vim sof-firmware intel-ucode
   genfstab -U /mnt >> /mnt/etc/fstab
   hwclock --systohc
