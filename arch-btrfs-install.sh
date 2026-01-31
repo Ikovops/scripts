@@ -28,17 +28,21 @@ partition_disk() {
 }
 
 install_core() {
-  arch-chroot /mnt
   ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
   vim /etc/locale.gen
   echo "LANG=en_US.UTF-8" > /etc/locale.conf
   echo "KEYMAP=us" > /etc/vconsole.conf
+  locale-gen
   echo "archlinux" > /etc/hostname
+  echo "127.0.0.1\tlocahost" > /etc/hosts
+  echo "::1\tlocahost" > /etc/hosts
+  echo "127.0.0.1\tarchlinux.localdomain\tarchlinux" > /etc/hosts
   mkinitcpio -P
   passwd
   read -p "New user name: " new_username
   useradd -mG wheel ${new_username}
   passwd ${new_username}
+  EDITOR=vim visudo
   pacman -S refind
   refind-install
   echo "+--------------------------------+"
