@@ -22,8 +22,7 @@ partition_disk() {
   mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@var /dev/${root_part_name} /mnt/var
   mount /dev/${efi_part_name} /mnt/boot
   reflector --sort rate --completion-percent 100 --age 12 --country France --protocol https --save /etc/pacman.d/mirrorlist
-  vim /etc/mkinitcpio.conf
-  pacstrap -K /mnt base linux linux-firmware git vim sof-firmware intel-ucode
+  pacstrap -K /mnt base linux linux-firmware git vim sof-firmware intel-ucode btrfs-progs sudo
   genfstab -U /mnt >> /mnt/etc/fstab
   hwclock --systohc
 }
@@ -38,6 +37,7 @@ install_core() {
   echo "127.0.0.1\tlocahost" > /etc/hosts
   echo "::1\tlocahost" > /etc/hosts
   echo "127.0.0.1\tarchlinux.localdomain\tarchlinux" > /etc/hosts
+  vim /etc/mkinitcpio.conf
   mkinitcpio -P
   passwd
   read -p "New user name: " new_username
