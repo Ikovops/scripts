@@ -16,10 +16,10 @@ partition_disk() {
   btrfs subvolume create /mnt/@home
   btrfs subvolume create /mnt/@var
   umount /mnt
-  mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@ /mnt/${root_partition_name} /mnt
+  mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@ /dev/${root_part_name} /mnt
   mkdir -p /mnt/{boot,home,var}
-  mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@home /mnt/${root_partition_name} /mnt
-  mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@var /mnt/${root_partition_name} /mnt
+  mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@home /dev/${root_part_name} /mnt/home
+  mount -o noatime,compress=zstd,ssd,discard=async,space_cache=v2,subvol=@var /dev/${root_part_name} /mnt/var
   mount /dev/${efi_part_name} /mnt/boot
   reflector --sort rate --completion-percent 100 --age 12 --country France --protocol https --save /etc/pacman.d/mirrorlist
   pacstrap -K /mnt base linux linux-firmware git vim sof-firmware intel-ucode
